@@ -1,0 +1,39 @@
+# Elixir / Mix build artifacts
+/_build/
+/deps/
+
+# Generated documentation
+/doc/
+
+# Coverage reports
+/cover/
+*.coverdata
+
+# Crash dumps
+erl_crash.dump
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Temporary files
+*.tmp
+*.swp
+*~
+/tmp/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor-specific files
+.idea/
+.vscode/
+
+# Elixir language server
+.elixir_ls/
+
+# Local tool caches
+/.fetch/
