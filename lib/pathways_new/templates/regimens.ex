@@ -6,7 +6,7 @@ defmodule PathwaysNew.Templates.Regimens do
   def render(module) do
 	"""
 	defmodule #{module}.Regimens do
-	use Osteoporosis.Collection, attribute: :regimens
+	use #{module}.Collection, attribute: :regimens
 	import #{module}.DSL
 	
 	  @moduledoc false

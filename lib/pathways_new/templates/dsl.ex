@@ -102,13 +102,13 @@ defmodule PathwaysNew.Templates.DSL do
 	  
 		defmacro condition(name, do: block) do
 		  quote do
-			  Module.put_attribute(__MODULE__, :description, nil)
+			Module.put_attribute(__MODULE__, :description, nil)
 			Module.put_attribute(__MODULE__, :mechanisms, [])
 			Module.put_attribute(__MODULE__, :signals, [])
 			Module.put_attribute(__MODULE__, :interventions, [])
-			  unquote(block)
+			unquote(block)
 		
-			condition = %Osteoporosis.Domain.Condition{
+			condition = %#{module}.Domain.Condition{
 			  name: unquote(name),
 			  description: Module.get_attribute(__MODULE__, :description),
 			  mechanisms: Module.get_attribute(__MODULE__, :mechanisms),

@@ -11,7 +11,7 @@ defmodule Demo do
 	
 	  def describe(pathway_module) do
 		pathway = pathway_module.pathway()
-		graph = #{module}.Graph.from_pathway(pathway) 
+		# graph = #{module}.Graph.from_pathway(pathway) 
 	
 		%{
 		  module: pathway_module,
@@ -35,11 +35,11 @@ defmodule Demo do
 	
 	defp run_new_fn_queries(pathway) do
 		p = pathway
-		g = Osteoporosis.Graph.from_pathway(p)
+		g = #{module}.Graph.from_pathway(p)
 		indicated_agents = p.interventions |> Enum.flat_map(& &1.indicated_agents) |> Enum.uniq()
 		facts = g.facts
 		filtered_facts = Enum.reject(facts, fn fact -> fact.relation in [:indicates, :effects] end)
-		derived_facts = g.facts |> Enum.flat_map(&Osteoporosis.Fact.derive/1)
+		derived_facts = g.facts |> Enum.flat_map(&#{module}.Fact.derive/1)
 		# queryable_facts = filtered_facts ++ derived_facts 
 		g = %{g | facts: filtered_facts ++ derived_facts}
 		[

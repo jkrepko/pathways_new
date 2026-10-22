@@ -7,7 +7,7 @@ defmodule PathwaysNew.Templates.Interventions do
     """
     defmodule #{module}.Interventions do
       @moduledoc false
-      use Osteoporosis.Collection, attribute: :interventions
+      use #{module}.Collection, attribute: :interventions
       import #{module}.DSL
     
 

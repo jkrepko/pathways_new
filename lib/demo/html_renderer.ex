@@ -13,8 +13,9 @@ defmodule HtmlRenderer do
 		demos
 		|> TextRenderer.render()
 		|> html_escape()
-		|> String.replace("\n", "<br>\n")
+		|> String.replace("\\n", "<br>\\n")
 	
+	    \"\"\"
 		<!doctype html>
 		<html>
 		  <head>
@@ -53,6 +54,7 @@ defmodule HtmlRenderer do
 			</div>
 		  </body>
 		</html>
+		\"\"\"
 	  end
 	
 	  defp bold_keywords(body) do

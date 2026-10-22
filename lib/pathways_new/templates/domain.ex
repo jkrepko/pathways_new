@@ -3,19 +3,19 @@ defmodule PathwaysNew.Templates.Domain do
     """
     defmodule #{module} do
       @moduledoc false
-      alias Osteoporosis.Domain.Pathway
+      alias #{module}.Domain.Pathway
       
       def name, do: :osteoporosis
       
       def pathway do
         %Pathway{
           name: name(),
-          signals: Osteoporosis.Signals.all(),
-          mechanisms: Osteoporosis.Mechanisms.all(),
-          interventions: Osteoporosis.Interventions.all(),
-          indicated_agents: Osteoporosis.IndicatedAgents.all(),
-          regimens: Osteoporosis.Regimens.all(),
-          conditions: Osteoporosis.Conditions.all()
+          signals: #{module}.Signals.all(),
+          mechanisms: #{module}.Mechanisms.all(),
+          interventions: #{module}.Interventions.all(),
+          indicated_agents: #{module}.IndicatedAgents.all(),
+          regimens: #{module}.Regimens.all(),
+          conditions: #{module}.Conditions.all()
         }
       end
     end

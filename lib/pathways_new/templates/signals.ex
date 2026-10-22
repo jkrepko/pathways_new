@@ -7,7 +7,7 @@ defmodule PathwaysNew.Templates.Signals do
     """
     defmodule #{module}.Signals do
       @moduledoc false
-      use Osteoporosis.Collection, attribute: :signals
+      use #{module}.Collection, attribute: :signals
       import #{module}.DSL
 
         # signal :serum_creatinine do

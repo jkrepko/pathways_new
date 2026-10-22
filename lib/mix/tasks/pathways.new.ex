@@ -103,8 +103,8 @@ end
     |> Enum.each(&File.mkdir_p!/1)
   end
   
-
-  defp create_files(project_root, demo_root, lib_demo_root, lib_root, test_root, domain_root, domain, module) do
+ # create_files(project_root, lib_root, demo_root, lib_demo_root, test_root, domain_root, domain, module)
+  defp create_files(project_root, lib_root, demo_root, lib_demo_root, test_root, domain_root, domain, module) do
     
     write!(
       Path.join(project_root, "mix.exs"),
@@ -279,10 +279,11 @@ end
     )
     
     write!(
-      Path.join(lib_root, "conditions.ex"),
+      Path.join([lib_root, "conditions", "conditions.ex"]),
       # Templates.aliases(module)
       PathwaysNew.Templates.Conditions.render(module)
     )
+    
 
     write!(
       Path.join(lib_root, "sources.ex"),

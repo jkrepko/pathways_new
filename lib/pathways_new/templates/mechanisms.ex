@@ -7,7 +7,7 @@ defmodule PathwaysNew.Templates.Mechanisms do
 	"""
 	defmodule #{module}.Mechanisms do
 	  @moduledoc false
-	  use Osteoporosis.Collection, attribute: :mechanisms
+	  use #{module}.Collection, attribute: :mechanisms
 	  import #{module}.DSL
 
 		# mechanism :example_mechanism do

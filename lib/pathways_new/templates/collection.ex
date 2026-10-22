@@ -1,6 +1,6 @@
 defmodule PathwaysNew.Templates.Collection do
   @moduledoc """
-  Generates the Collections capability  for a new domain.
+  Generates the canonical vocabulary module for a new domain.
   """
 
   def render(module) do
@@ -18,7 +18,7 @@ defmodule PathwaysNew.Templates.Collection do
 			accumulate: true
 		  )
 	
-		  @before_compile Osteoporosis.Collection
+		  @before_compile #{module}.Collection
 		  @collection_attribute unquote(attribute)
 		end
 	  end

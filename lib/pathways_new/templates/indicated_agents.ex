@@ -7,7 +7,7 @@ defmodule PathwaysNew.Templates.IndicatedAgents do
 	"""
 	defmodule #{module}.IndicatedAgents do
 	  @moduledoc false
-	  use Osteoporosis.Collection, attribute: :indicated_agents
+	  use #{module}.Collection, attribute: :indicated_agents
 	  import #{module}.DSL
 	
 

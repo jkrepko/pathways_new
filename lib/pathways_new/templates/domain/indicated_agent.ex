@@ -9,6 +9,7 @@ defmodule PathwaysNew.Templates.Domain.IndicatedAgent do
 	  defstruct [
 		:name,
 		:description,
+		:brand_name,
 		:category,
 		:status,
 		contraindicated_by: [],
