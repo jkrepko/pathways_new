@@ -39,10 +39,12 @@ defp generate(domain_name) do
   project_root =
     Path.expand(Path.join("..", domain), File.cwd!())
 
-  root = Path.join([project_root, "lib", domain])
+  lib_root = Path.join(project_root, "lib")
   demo_root = Path.join(project_root, "demo")
   test_root = Path.join(project_root, "test")
-  domain_root = Path.join(root, "domain")
+  
+  lib_demo_root  = Path.join(lib_root, "demo")
+  domain_root = Path.join(lib_root, "domain")
   #DSL_root = Path.join(root, "DSL")
 
   if File.exists?(project_root) do
@@ -51,9 +53,9 @@ defp generate(domain_name) do
 
   File.mkdir_p!(project_root)
 
-  create_directories(root, demo_root, test_root, domain_root)
+  create_directories(lib_root, demo_root, lib_demo_root, test_root, domain_root)
 
-  create_files(project_root, demo_root, root, test_root, domain_root, domain, module)
+  create_files(project_root, lib_root, demo_root, lib_demo_root, test_root, domain_root, domain, module)
 
   Mix.shell().info("""
 
@@ -84,24 +86,25 @@ end
   #   end
   # end
 
-  defp create_directories(root, demo_root, test_root, domain_root) do
+  defp create_directories(lib_root, demo_root, lib_demo_root, test_root, domain_root) do
     [
-      root,
-      Path.join(root, "signals"),
-      Path.join(root, "mechanisms"),
-      Path.join(root, "interventions"),
-      Path.join(root, "regimens"),
-      Path.join(root, "indicated_agents"),
-      Path.join(root, "conditions"),
+      lib_root,
+      Path.join(lib_root, "signals"),
+      Path.join(lib_root, "mechanisms"),
+      Path.join(lib_root, "interventions"),
+      Path.join(lib_root, "regimens"),
+      Path.join(lib_root, "indicated_agents"),
+      Path.join(lib_root, "conditions"),
       test_root,
       domain_root,
-      demo_root
+      demo_root,
+      lib_demo_root
     ]
     |> Enum.each(&File.mkdir_p!/1)
   end
   
 
-  defp create_files(project_root, demo_root, root, test_root, domain_root, domain, module) do
+  defp create_files(project_root, demo_root, lib_demo_root, lib_root, test_root, domain_root, domain, module) do
     
     write!(
       Path.join(project_root, "mix.exs"),
@@ -109,74 +112,101 @@ end
     )
     
     write!(
-      Path.join(root, "#{domain}.ex"),
+      Path.join(lib_root, "#{domain}.ex"),
       PathwaysNew.Templates.Domain.render(module)
     )
     
     write!(
-      Path.join(root, "dsl.ex"),
+      Path.join(lib_root, "dsl.ex"),
       # Templates.pathway(domain, module)
       PathwaysNew.Templates.DSL.render(module)
     )
     
     write!(
-      Path.join(root, "fact.ex"),
+      Path.join(lib_root, "fact.ex"),
       # Templates.pathway(domain, module)
       PathwaysNew.Templates.Fact.render(module)
     )
     
     write!(
-      Path.join(root, "entity.ex"),
+      Path.join(lib_root, "entity.ex"),
       # Templates.pathway(domain, module)
       PathwaysNew.Templates.Entity.render(module)
     )
     
     write!(
-      Path.join(root, "entities.ex"),
+      Path.join(lib_root, "entities.ex"),
       # Templates.pathway(domain, module)
       PathwaysNew.Templates.Entities.render(module)
     )
     
     write!(
-      Path.join(root, "graph.ex"),
+      Path.join(lib_root, "graph.ex"),
       # Templates.pathway(domain, module)
       PathwaysNew.Templates.Graph.render(module)
     )
     
     write!(
-      Path.join(root, "collection.ex"),
+      Path.join(lib_root, "collection.ex"),
       # Templates.pathway(domain, module)
       PathwaysNew.Templates.Collection.render(module)
     )
     
     write!(
-      Path.join(root, "role.ex"),
+      Path.join(lib_root, "role.ex"),
       # Templates.pathway(domain, module)
       PathwaysNew.Templates.Domain.Role.render(module)
+    )
+  
+    
+    write!(
+      Path.join(demo_root, "demo.exs"),
+      Demo.render(module)
+    )
+    
+    write!(
+      Path.join(lib_demo_root, "basic_pathway.ex"),
+      # Templates.pathway(domain, module)
+      BasicPathway.render(module)
+    )
+    
+    write!(
+      Path.join(lib_demo_root, "domain_demo.ex"),
+      # Templates.pathway(domain, module)
+      Demo.render(module)
+    )
+    
+    write!(
+      Path.join(lib_demo_root, "text_renderer.ex"),
+      # Templates.pathway(domain, module)
+      TextRenderer.render(module)
+    )
+    
+    write!(
+      Path.join(lib_demo_root, "html_renderer.ex"),
+      # Templates.pathway(domain, module)
+      HtmlRenderer.render(module)
     )
     
     write!(
       Path.join(test_root, "test_helper.exs"),
       PathwaysNew.Templates.TestHelper.render()
     )
-    write!(
-      Path.join(test_root, "domain_story.exs"),
-      PathwaysNew.DomainStory.Demo.render(module)
-    )
+    
     
     write!(
-      Path.join(demo_root, "#{domain}_test.exs"),
-      PathwaysNew.Templates.DomainTest.render(module, domain)
+      Path.join(test_root, "#{domain}_test.exs"),
+      PathwaysNew.Templates.Test.render(module)
     )
 
     write!(
-      Path.join(root, "pathway.ex"),
+      Path.join(lib_root, "pathway.ex"),
       # Templates.pathway(domain, module)
       PathwaysNew.Templates.Domain.Pathway.render(module)
     )
     
     write!(
-      Path.join([domain_root, "signal.ex"]),
+      Path.join(domain_root, "signal.ex"),
       # Templates.signals(module)
       PathwaysNew.Templates.Domain.Signal.render(module)
     )
@@ -210,52 +240,52 @@ end
       # Templates.signals(module)
       PathwaysNew.Templates.Domain.Intervention.render(module)
     )
-    
-    write!(
-      Path.join([root, "conditions", "conditions.ex"]),
-      # Templates.signals(module)
-      PathwaysNew.Templates.Conditions.render(module)
-    )
 
     write!(
-      Path.join([root, "signals", "signals.ex"]),
+      Path.join([lib_root, "signals", "signals.ex"]),
       # Templates.signals(module)
       PathwaysNew.Templates.Signals.render(module)
     )
 
     write!(
-      Path.join([root, "mechanisms", "mechanisms.ex"]),
+      Path.join([lib_root, "mechanisms", "mechanisms.ex"]),
       # Templates.mechanisms(module)
       PathwaysNew.Templates.Mechanisms.render(module)
     )
 
     write!(
-      Path.join([root, "interventions", "interventions.ex"]),
+      Path.join([lib_root, "interventions", "interventions.ex"]),
       # Templates.interventions(module)
       PathwaysNew.Templates.Interventions.render(module)
     )
     
     write!(
-      Path.join([root, "indicated_agents", "indicated_agents.ex"]),
+      Path.join([lib_root, "indicated_agents", "indicated_agents.ex"]),
       # Templates.signals(module)
       PathwaysNew.Templates.IndicatedAgents.render(module)
     )
     
 
     write!(
-      Path.join([root, "regimens", "regimens.ex"]),
+      Path.join([lib_root, "regimens", "regimens.ex"]),
       # Templates.regimens(module)
       PathwaysNew.Templates.Regimens.render(module)
     )
 
     write!(
-      Path.join(root, "aliases.ex"),
+      Path.join(lib_root, "aliases.ex"),
       # Templates.aliases(module)
       PathwaysNew.Templates.Aliases.render(module)
     )
+    
+    write!(
+      Path.join(lib_root, "conditions.ex"),
+      # Templates.aliases(module)
+      PathwaysNew.Templates.Conditions.render(module)
+    )
 
     write!(
-      Path.join(root, "sources.ex"),
+      Path.join(lib_root, "sources.ex"),
       # Template.sources(module)
       PathwaysNew.Templates.Sources.render(module)
     )

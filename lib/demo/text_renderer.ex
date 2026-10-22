@@ -124,7 +124,7 @@ defmodule TextRenderer do
 	
 	 defp render_intervention(m) do
 	 \"\"\"
-	  - \#{english_name(#{module}Demo.get(m, :name, :unnamed_intervention)}
+	  - \#{english_name(#{module}Demo.get(m, :name, :unnamed_intervention))}
 		  enhances:      \#{english_list(#{module}Demo.get(m, :enhances, []))}
 		  inhibits:      \#{english_list(#{module}Demo.get(m, :inhibits, []))}
 		  reduces:       \#{english_list(#{module}Demo.get(m, :reduces, []))}

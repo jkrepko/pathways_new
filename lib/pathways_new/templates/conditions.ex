@@ -7,7 +7,7 @@ defmodule PathwaysNew.Templates.Conditions do
 	"""
 	defmodule #{module}.Conditions do
 	  @moduledoc false
-	  use Osteoporosis.Collection, attribute: :conditions
+	  use #{module}.Collection, attribute: :conditions
 	  import #{module}.DSL
 
 		# condition :sample_condition do
