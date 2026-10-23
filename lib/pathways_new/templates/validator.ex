@@ -18,7 +18,8 @@ defmodule PathwaysNew.Templates.Validator do
 		  {:unused_signals, unused_signals(pathway)},                         # Comment out for relations-free result
 		  {:unused_interventions, unused_interventions(pathway)},
 		  {:invalid_regimen_members, invalid_regimen_members(pathway)},
-		  {:orphan_mechanisms, orphan_mechanisms(pathway)}
+		  {:orphan_mechanisms, orphan_mechanisms(pathway)},
+		  {:mechanisms_without_family, mechanisms_without_family(pathway)}
 		]
 	  end
 	
@@ -34,6 +35,7 @@ defmodule PathwaysNew.Templates.Validator do
 	
 	  defp print_category(category, []) do
 		IO.puts("✓ \#{humanize(category)}")
+		end
 	
 	  defp print_category(category, items) do
 		IO.puts("")
@@ -100,21 +102,6 @@ defmodule PathwaysNew.Templates.Validator do
 	  MapSet.difference(referenced_targets, defined_targets)
 	end
 	
-	# defp missing_interventions(pathway) do
-	#   defined_interventions =
-	#     pathway.interventions
-	#     |> Enum.map(& &1.name)
-	#     |> MapSet.new()
-	# 
-	#   referenced_interventions =
-	#     pathway.mechanisms
-	#     |> Enum.flat_map(fn mechanism ->
-	#       mechanism.enhanced_by ++ mechanism.inhibited_by
-	#     end)
-	#     |> MapSet.new()
-	# 
-	#   MapSet.difference(referenced_interventions, defined_interventions)
-	# end
 	
 	defp intervention_candidates(mechanism) do
 	  case mechanism.role do
@@ -198,11 +185,6 @@ defmodule PathwaysNew.Templates.Validator do
 		pathway.regimens
 		[]
 	  end
-	
-	  defp orphan_mechanisms(pathway) do
-		pathway.mechanisms
-		[]
-	  end
 	  
 	  defp orphan_mechanisms(pathway) do
 		  pathway.mechanisms
@@ -223,12 +205,12 @@ defmodule PathwaysNew.Templates.Validator do
 		  |> MapSet.new()
 		end
 		
-		# defp mechanisms_without_family(p) do
-		  # p.mechanisms
-		  # |> Enum.filter(&is_nil(&1.family))
-		  # |> Enum.map(& &1.name)
-		  # |> MapSet.new()
-		# end
+		defp mechanisms_without_family(p) do
+		  p.mechanisms
+		  |> Enum.filter(&is_nil(&1.family))
+		  |> Enum.map(& &1.name)
+		  |> MapSet.new()
+		end
 	
 	end
 	

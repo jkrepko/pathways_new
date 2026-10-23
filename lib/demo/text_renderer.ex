@@ -255,11 +255,10 @@ defmodule TextRenderer do
 		  defp english_name(value), do: to_string(value)
 		end
 
-	
-
 	'''
 
-	|> String.replace("__DOMAIN__", module)
+	# |> String.replace("__DOMAIN__", module)
+	  |> String.replace("OsteoTest", to_string(module))
 
   end
 

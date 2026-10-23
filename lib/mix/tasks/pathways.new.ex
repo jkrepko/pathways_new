@@ -290,6 +290,12 @@ end
       # Template.sources(module)
       PathwaysNew.Templates.Sources.render(module)
     )
+    
+    write!(
+      Path.join(lib_root, "validator.ex"),
+      # Template.sources(module)
+      PathwaysNew.Templates.Validator.render(module)
+    )
 
   end
 
